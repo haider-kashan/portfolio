@@ -18,6 +18,8 @@ import {
 
 // Props
 interface HeroSectionProps {
+  headline?: string | null;
+  subheadline?: string | null;
   ctaText?: string | null;
   ctaUrl?: string | null;
   bgImageUrl?: string | null;
