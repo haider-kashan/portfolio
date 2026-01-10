@@ -4,7 +4,6 @@ import { draftMode } from "next/headers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "../globals.css";
-
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { SanityLive } from "@/sanity/lib/live";
@@ -17,7 +16,7 @@ import { DisableDraftMode } from "@/components/DisableDraftMode";
 import { VisualEditing } from "next-sanity/visual-editing";
 
 /* -------------------------------------------------------------------------- */
-/*                                   QUERIES                                  */
+/* QUERIES                                                                    */
 /* -------------------------------------------------------------------------- */
 
 const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
@@ -27,20 +26,21 @@ const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   googleAnalyticsId,
   facebookPixelId,
   maintenanceMode,
-  title,
-  description,
-  keywords,
+  siteTitle,        
+  siteDescription,  
+  siteKeywords,     
   favicon,
-  ogImage
+  ogImage    
 }`;
 
 const PROFILE_QUERY = `*[_id == "singleton-profile"][0]{
   firstName,
-  lastName
+  lastName,
+  socialLinks 
 }`;
 
 /* -------------------------------------------------------------------------- */
-/*                                    FONTS                                   */
+/* FONTS                                                                      */
 /* -------------------------------------------------------------------------- */
 
 const geistSans = Geist({
@@ -54,7 +54,7 @@ const geistMono = Geist_Mono({
 });
 
 /* -------------------------------------------------------------------------- */
-/*                                  VIEWPORT                                  */
+/* VIEWPORT                                                                   */
 /* -------------------------------------------------------------------------- */
 
 export const viewport: Viewport = {
@@ -68,22 +68,23 @@ export const viewport: Viewport = {
 };
 
 /* -------------------------------------------------------------------------- */
-/*                             METADATA GENERATION                             */
+/* METADATA GENERATION                                                        */
 /* -------------------------------------------------------------------------- */
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await client.fetch(SETTINGS_QUERY);
 
-  const title = settings?.title ?? "Kashan Haider";
+  const title = settings?.siteTitle ?? "Kashan Haider";
   const description =
-    settings?.description ??
+    settings?.siteDescription ??
     "Full Stack Developer specializing in Next.js and Sanity.";
 
   const favicon = settings?.favicon
     ? urlFor(settings.favicon).width(32).height(32).url()
     : "/favicon.ico";
 
-  const ogImage = settings?.ogImage
+  // ✅ FIXED: Updated logic to use 'ogImage'
+  const ogImageUrl = settings?.ogImage
     ? urlFor(settings.ogImage)
         .width(1200)
         .height(630)
@@ -101,7 +102,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
     description,
     keywords:
-      settings?.keywords ??
+      settings?.siteKeywords ??
       ["Software Engineer", "Next.js", "React", "Kashan Haider"],
 
     icons: {
@@ -115,8 +116,8 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       siteName: title,
-      images: ogImage
-        ? [{ url: ogImage, width: 1200, height: 630, alt: title }]
+      images: ogImageUrl
+        ? [{ url: ogImageUrl, width: 1200, height: 630, alt: title }]
         : [],
     },
 
@@ -124,7 +125,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ogImage ? [ogImage] : [],
+      images: ogImageUrl ? [ogImageUrl] : [],
     },
 
     robots: {
@@ -135,7 +136,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                                 ROOT LAYOUT                                */
+/* ROOT LAYOUT                                                                */
 /* -------------------------------------------------------------------------- */
 
 export default async function RootLayout({
@@ -156,11 +157,17 @@ export default async function RootLayout({
     maintenanceMode,
   } = settings || {};
 
+  const socialData = profile?.socialLinks || {};
+  const sameAsUrls = Object.values(socialData).filter(
+    (url): url is string => typeof url === "string" && url.length > 0
+  );
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: settings?.title || "Kashan Haider Portfolio",
+    name: settings?.siteTitle || "Kashan Haider Portfolio",
     url: "https://kashanhaider.com",
+    sameAs: sameAsUrls, 
     author: {
       "@type": "Person",
       name: profile?.firstName
