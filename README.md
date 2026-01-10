@@ -191,7 +191,7 @@ I focused heavily on Core Web Vitals. Here are the Lighthouse scores for the liv
 **Kashan Haider**
 
 - **GitHub:** [haider-kashan](https://github.com/haider-kashan)
-- **LinkedIn:** [Kashan Haider](www.linkedin.com/in/haider-kashan)
+- **LinkedIn:** [Kashan Haider](https://linkedin.com/in/haider-kashan)
 - **Email:** [kashanhaider0209@gmail.com](mailto:kashanhaider0209@gmail.com)
 
 ---
