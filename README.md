@@ -79,31 +79,40 @@ To run this project locally, follow these steps.
 You need Node.js installed. I use **pnpm** for package management because it is faster and more efficient.
 
 - **Install pnpm (if you don't have it):**
-  ```bash
-  npm install -g pnpm
-  Installation
-  Clone the repository
-  ```
 
-Bash
+Installation
 
+```bash
+npm install -g pnpm
+```
+
+Clone the repository
+
+```bash
 git clone https://github.com/haider-kashan/portfolio.git
+```
+
 Navigate to the project folder
 
-Bash
-
+```bash
 cd portfolio
+```
+
 Install dependencies
 
-Bash
-
+```bash
 pnpm install
+```
+
 Run the development server
 
-Bash
-
+```bash
 pnpm dev
+```
+
 Open http://localhost:3000 in your browser.
+
+---
 
 ## 🚀 Deployment
 
@@ -114,45 +123,53 @@ The easiest way to deploy this app is to use the [Vercel Platform](https://verce
 3. Add your environment variables (`NEXT_PUBLIC_SANITY_PROJECT_ID`, etc.) in the Vercel dashboard.
 4. Click **Deploy**.
 
+---
+
 ## 🔑 Environment Variables
 
 This project uses Sanity.io. To run it locally, you must create a .env.local file in the root directory and add the following keys:
 
 Code snippet
 
+```bash
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 Note: You can find your Project ID in your Sanity Dashboard.
+```
+
+---
 
 ## 📂 Project Structure
 
-Bash
-
+```bash
 .
-├── app/ # Next.js App Router
-│ ├── (portfolio)/ # Main portfolio routes (Route Group)
-│ │ ├── page.tsx # Homepage
-│ │ └── ... # Legal pages (Privacy, Terms)
-│ ├── (sanity)/studio/ # Sanity Studio CMS embedded route
-│ ├── actions/ # Server Actions (Contact form, Draft mode)
-│ └── globals.css # Global styles & Tailwind directives
-├── components/ # React Components
-│ ├── sections/ # Major page sections (Hero, About, Projects)
-│ ├── ui/ # Reusable UI atoms (Buttons, Cards, Animated elements)
-│ ├── FloatingDock.tsx # Navigation components
+├── app/                # Next.js App Router
+│ ├── (portfolio)/      # Main portfolio routes (Route Group)
+│ │ ├── page.tsx        # Homepage
+│ │ └── ...             # Legal pages (Privacy, Terms)
+│ ├── (sanity)/studio/  # Sanity Studio CMS embedded route
+│ ├── actions/          # Server Actions (Contact form, Draft mode)
+│ └── globals.css       # Global styles & Tailwind directives
+├── components/         # React Components
+│ ├── sections/         # Major page sections (Hero, About, Projects)
+│ ├── ui/               # Reusable UI atoms (Buttons, Cards, Animated elements)
+│ ├── FloatingDock.tsx  # Navigation components
 │ └── ThemeProvider.tsx # Dark/Light mode context
-├── sanity/ # Sanity CMS Configuration
-│ ├── schemaTypes/ # Data models (Projects, Experience, Blogs)
-│ ├── lib/ # Sanity client & image url builder
-│ ├── env.ts # Environment variable validation
-│ └── structure.ts # Custom Studio desk structure
-├── hooks/ # Custom React Hooks
-├── public/ # Static assets (images, icons)
-├── biome.json # Linter and Formatter configuration
-├── next.config.ts # Next.js configuration
-├── sanity-cli.ts # Sanity CLI configuration
-└── pnpm-lock.yaml # Dependency lock file
+├── sanity/             # Sanity CMS Configuration
+│ ├── schemaTypes/      # Data models (Projects, Experience, Blogs)
+│ ├── lib/              # Sanity client & image url builder
+│ ├── env.ts            # Environment variable validation
+│ └── structure.ts      # Custom Studio desk structure
+├── hooks/              # Custom React Hooks
+├── public/             # Static assets (images, icons)
+├── biome.json          # Linter and Formatter configuration
+├── next.config.ts      # Next.js configuration
+├── sanity-cli.ts       # Sanity CLI configuration
+└── pnpm-lock.yaml      # Dependency lock file
+```
+
+---
 
 ## ⚡ Performance
 
@@ -166,6 +183,8 @@ I focused heavily on Core Web Vitals. Here are the Lighthouse scores for the liv
 ![SEO](https://img.shields.io/badge/SEO-100-success?style=for-the-badge&logo=google-search-console&logoColor=white)
 
 </div>
+
+---
 
 ## 🤝 Contact
 
