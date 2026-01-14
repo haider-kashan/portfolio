@@ -204,12 +204,12 @@ export async function HeroSection(props: HeroSectionProps) {
             </div>
 
             {/* RIGHT CONTENT: Profile Image - Slide from Right */}
+            {/* RIGHT CONTENT: Profile Image - Slide from Right */}
             <div className="order-1 @3xl:order-2 flex justify-center @3xl:justify-end">
-                {/* Delay is 0.2 to match the Headline text arrival. 
-                   This makes the face and the "Job Title" arrive at the exact same moment.
-                */}
-                <ScrollAnimation variant="slideFromRight" delay={0.2} className="w-full flex justify-center @3xl:justify-end">
-                    <div className="relative w-[50%] @md:w-[60%] @3xl:w-[85%] max-w-md">
+                <ScrollAnimation variant="slideFromRight" delay={0.1} className="w-full flex justify-center @3xl:justify-end">
+                    
+                    {/* FIX APPLIED HERE: Added 'mx-auto' and '@3xl:mx-0' */}
+                    <div className="relative w-[70%] @md:w-[60%] @3xl:w-[85%] max-w-md mx-auto @3xl:mx-0">
                         {profile.profileImage && (
                         <div itemProp="image">
                           <ProfileImage
@@ -221,6 +221,7 @@ export async function HeroSection(props: HeroSectionProps) {
                         </div>
                         )}
                     </div>
+
                 </ScrollAnimation>
             </div>
 

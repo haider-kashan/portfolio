@@ -23,19 +23,21 @@ export function ProfileImage({
     <button 
       onClick={handleToggle}
       type="button"
-      // ACCESSIBILITY: Indicates the state of the toggle
       aria-pressed={isRevealed}
       aria-label={`View profile details for ${firstName} ${lastName}`}
-      className="relative w-full max-w-125 mx-auto group select-none my-10 cursor-pointer font-sans outline-none block border-none bg-transparent p-0"
+      // FIX: 
+      // 1. Changed max-w-125 to standard pixel values (280px mobile / 500px desktop)
+      // 2. Added 'self-center' to ensure it aligns in flex containers
+      className="relative w-full max-w-[280px] md:max-w-[500px] mx-auto self-center group select-none my-6 md:my-10 cursor-pointer font-sans outline-none block border-none bg-transparent p-0"
     >
       
-      {/* AMBIENT GLOW - Decorative, hidden from screen readers */}
+      {/* AMBIENT GLOW */}
       <div 
         className="absolute -inset-4 bg-linear-to-tr from-primary/40 via-transparent to-accent/40 rounded-[3rem] blur-3xl opacity-0 group-hover:opacity-100 transition duration-700 ease-out pointer-events-none" 
         aria-hidden="true"
       />
       
-      {/* RIM GLOW - Decorative */}
+      {/* RIM GLOW */}
       <div 
         className="absolute -inset-px bg-linear-to-br from-(--color-primary) via-(--color-accent) to-(--color-primary) rounded-[2.5rem] blur-sm opacity-30 group-hover:opacity-80 transition duration-500 ease-out will-change-[opacity] pointer-events-none" 
         aria-hidden="true"
@@ -45,12 +47,10 @@ export function ProfileImage({
       <div className="relative aspect-square w-full rounded-[2.5rem] overflow-hidden bg-gray-950 ring-1 ring-white/10 isolate z-10 shadow-2xl">
         
         {/* IMAGE */}
-        {/* SEO: itemProp="image" identifies this as the Person's photo */}
         <Image
           src={imageUrl}
           alt={`${firstName} ${lastName}`}
           fill
-          // PERFORMANCE: Added sizes to help browser load correct resolution
           sizes="(max-width: 768px) 100vw, 500px"
           className={`object-cover transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform 
             ${isRevealed ? 'scale-105' : 'scale-100 group-hover:scale-105'}`}
@@ -76,7 +76,6 @@ export function ProfileImage({
             
             {/* NAME */}
             <h3 className="text-white text-center mb-2 leading-none drop-shadow-xl whitespace-nowrap flex gap-2 items-baseline justify-center">
-              {/* SEO: Explicitly tagging first and last name */}
               <span className="font-extrabold tracking-tight text-xl sm:text-2xl md:text-3xl lg:text-4xl" itemProp="givenName">
                 {firstName}
               </span>
@@ -87,7 +86,6 @@ export function ProfileImage({
 
             {/* ROLE */}
             <div className="px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mt-1">
-              {/* SEO: Tagging the job title */}
               <p 
                 className="text-[8px] sm:text-[10px] font-bold text-gray-300 tracking-[0.2em] uppercase text-center"
                 itemProp="jobTitle"
