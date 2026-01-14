@@ -6,7 +6,6 @@ import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ProfileImage } from "./ProfileImage";
-// 1. Import the animation component
 import { ScrollAnimation } from "@/components/ScrollAnimation"; 
 
 import {
@@ -75,7 +74,11 @@ export async function HeroSection(props: HeroSectionProps) {
       id="home"
       itemScope
       itemType="http://schema.org/Person"
-      className="relative min-h-screen flex items-center justify-center px-6 pt-6 md:pt-10 pb-32 md:pb-40 overflow-hidden"
+      // FIX APPLIED HERE:
+      // 1. Mobile: min-h-[90vh] (to show a peek of the next section) & pb-12 (small gap)
+      // 2. Tablet: min-h-screen & pb-24 (medium gap)
+      // 3. Desktop: pb-40 (large gap)
+      className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center px-6 pt-6 md:pt-10 pb-12 md:pb-24 lg:pb-40 overflow-hidden"
       style={backgroundStyle}
     >
       {/* BACKGROUND */}
@@ -204,11 +207,10 @@ export async function HeroSection(props: HeroSectionProps) {
             </div>
 
             {/* RIGHT CONTENT: Profile Image - Slide from Right */}
-            {/* RIGHT CONTENT: Profile Image - Slide from Right */}
             <div className="order-1 @3xl:order-2 flex justify-center @3xl:justify-end">
                 <ScrollAnimation variant="slideFromRight" delay={0.1} className="w-full flex justify-center @3xl:justify-end">
                     
-                    {/* FIX APPLIED HERE: Added 'mx-auto' and '@3xl:mx-0' */}
+                    {/* Centering Fix for Mobile: mx-auto */}
                     <div className="relative w-[70%] @md:w-[60%] @3xl:w-[85%] max-w-md mx-auto @3xl:mx-0">
                         {profile.profileImage && (
                         <div itemProp="image">

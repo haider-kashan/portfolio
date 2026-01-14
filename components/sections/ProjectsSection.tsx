@@ -1,7 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ProjectStack } from "@/components/ProjectStack";
-// 1. Import the animation component
 import { ScrollAnimation } from "@/components/ScrollAnimation";
 
 interface Technology {
@@ -64,7 +63,8 @@ export async function ProjectsSection() {
     <section 
       id="projects" 
       aria-labelledby="projects-heading"
-      className="py-24 px-6 relative bg-background"
+      // FIX: Consistent Spacing (Mobile 48px / Desktop 96px)
+      className="py-12 md:py-24 px-6 relative bg-background"
     >
       {/* SEO: Inject JSON-LD Script */}
       <script
@@ -75,9 +75,10 @@ export async function ProjectsSection() {
       <div className="container mx-auto">
         
         {/* SEMANTIC HEADER */}
-        <header className="text-center mb-12 space-y-4">
+        {/* FIX: Consistent bottom margin (mb-10 mobile / mb-16 desktop) */}
+        <header className="text-center mb-10 md:mb-16 space-y-4">
           
-          {/* 1. Title: Blur In (Cinematic) */}
+          {/* 1. Title: Blur In */}
           <ScrollAnimation variant="blurIn">
             <h2 
                 id="projects-heading"
@@ -87,7 +88,7 @@ export async function ProjectsSection() {
             </h2>
           </ScrollAnimation>
           
-          {/* 2. Decoration: Scale Up (Pop) */}
+          {/* 2. Decoration: Scale Up */}
           <ScrollAnimation variant="scaleUp" delay={0.2}>
             <div 
                 className="h-1.5 w-24 bg-[var(--color-accent)] mx-auto rounded-full" 
@@ -95,7 +96,7 @@ export async function ProjectsSection() {
             />
           </ScrollAnimation>
           
-          {/* 3. Subtitle: Slide Up (Gentle) */}
+          {/* 3. Subtitle: Slide Up */}
           <ScrollAnimation variant="fadeUp" delay={0.3}>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto pt-4">
                 A selection of projects that define my technical journey.
@@ -103,10 +104,7 @@ export async function ProjectsSection() {
           </ScrollAnimation>
         </header>
 
-        {/* 4. The Stack: Fade Up 
-            Since we can't map inside this component, we animate the whole block.
-            If you want individual cards to stagger, we need to edit ProjectStack.tsx
-        */}
+        {/* 4. The Stack: Fade Up */}
         <ScrollAnimation variant="fadeUp" delay={0.4}>
             <ProjectStack data={projects} />
         </ScrollAnimation>

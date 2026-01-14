@@ -30,13 +30,16 @@ export async function AboutSection() {
     <section 
       id="about" 
       aria-labelledby="about-heading"
-      className="py-24 px-6 relative bg-background"
+      // FIX APPLIED HERE:
+      // Mobile: py-12 (48px) - much cleaner on small screens
+      // Desktop: md:py-24 (96px) - keeps the luxury spacing
+      className="py-12 md:py-24 px-6 relative bg-background"
     >
       {/* SEO: Schema for Person scope */}
       <div className="container mx-auto max-w-4xl" itemScope itemType="http://schema.org/Person">
         
         {/* HEADER - Blur In */}
-        <header className="text-center mb-16">
+        <header className="text-center mb-10 md:mb-16">
           <ScrollAnimation variant="blurIn">
             <h2 
               id="about-heading"
@@ -149,7 +152,7 @@ export async function AboutSection() {
 
         {/* STATS GRID */}
         {profile.stats && profile.stats.length > 0 && (
-          <div className="mt-20 relative">
+          <div className="mt-12 md:mt-20 relative">
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#ffffff10_1px,transparent_1px)] opacity-50 -z-10 rounded-3xl pointer-events-none" />
             

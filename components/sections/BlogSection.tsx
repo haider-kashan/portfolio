@@ -1,8 +1,8 @@
 import { defineQuery } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
-
-// 1. FIX: Correct Path (added /ui/) and use Named Import (added { })
 import { BlogCarousel } from "@/components/BlogCarousel"; 
+// 1. Import Animation
+import { ScrollAnimation } from "@/components/ScrollAnimation";
 
 // Interface (Matching Schema)
 interface BlogPost {
@@ -42,40 +42,53 @@ export async function BlogSection() {
     <section 
       id="blog" 
       aria-labelledby="blog-heading"
-      className="py-24 px-6 relative bg-background"
+      // FIX: Consistent Spacing (Mobile 48px / Desktop 96px)
+      className="py-12 md:py-24 px-6 relative bg-background"
       itemScope
       itemType="http://schema.org/Blog"
     >
       <div className="container mx-auto">
         
         {/* SEMANTIC HEADER */}
-        <header className="text-center mb-16 space-y-4">
-          <h2 
-            id="blog-heading"
-            className="text-4xl md:text-5xl font-bold tracking-tight text-foreground"
-            itemProp="name"
-          >
-            Latest <span className="text-[var(--color-primary)]">Insights</span>
-          </h2>
+        {/* FIX: Consistent bottom margin (mb-10 mobile / mb-16 desktop) */}
+        <header className="text-center mb-10 md:mb-16 space-y-4">
           
-          {/* Decorative element hidden from screen readers */}
-          <div 
-            className="h-1 w-20 bg-[var(--color-accent)] mx-auto rounded-full" 
-            role="presentation"
-          />
+          {/* 1. Title: Blur In */}
+          <ScrollAnimation variant="blurIn">
+            <h2 
+                id="blog-heading"
+                className="text-4xl md:text-5xl font-bold tracking-tight text-foreground"
+                itemProp="name"
+            >
+                Latest <span className="text-[var(--color-primary)]">Insights</span>
+            </h2>
+          </ScrollAnimation>
           
-          <p 
-            className="text-lg text-muted-foreground max-w-2xl mx-auto pt-4"
-            itemProp="description"
-          >
-            Thoughts, tutorials, and deep dives into technology.
-          </p>
+          {/* 2. Decoration: Scale Up */}
+          <ScrollAnimation variant="scaleUp" delay={0.2}>
+            <div 
+                className="h-1 w-20 bg-[var(--color-accent)] mx-auto rounded-full" 
+                role="presentation"
+            />
+          </ScrollAnimation>
+          
+          {/* 3. Subtitle: Fade Up */}
+          <ScrollAnimation variant="fadeUp" delay={0.3}>
+            <p 
+                className="text-lg text-muted-foreground max-w-2xl mx-auto pt-4"
+                itemProp="description"
+            >
+                Thoughts, tutorials, and deep dives into technology.
+            </p>
+          </ScrollAnimation>
         </header>
 
-        {/* Carousel Component */}
-        <div itemProp="blogPosts">
-            <BlogCarousel data={blogPosts} />
-        </div>
+        {/* Carousel Component: Fade Up */}
+        <ScrollAnimation variant="fadeUp" delay={0.4}>
+            <div itemProp="blogPosts">
+                <BlogCarousel data={blogPosts} />
+            </div>
+        </ScrollAnimation>
         
       </div>
     </section>
