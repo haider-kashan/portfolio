@@ -1,6 +1,8 @@
 import { defineQuery } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/live";
-import { ProjectStack } from "@/components/ProjectStack"; 
+import { ProjectStack } from "@/components/ProjectStack";
+// 1. Import the animation component
+import { ScrollAnimation } from "@/components/ScrollAnimation";
 
 interface Technology {
   name: string;
@@ -73,28 +75,41 @@ export async function ProjectsSection() {
       <div className="container mx-auto">
         
         {/* SEMANTIC HEADER */}
-        {/* Changed from div to header for better document structure */}
         <header className="text-center mb-12 space-y-4">
-          <h2 
-            id="projects-heading"
-            className="text-4xl md:text-6xl font-bold tracking-tight text-foreground"
-          >
-            Featured <span className="text-[var(--color-primary)]">Work</span>
-          </h2>
           
-          {/* Decorative element hidden from screen readers */}
-          <div 
-            className="h-1.5 w-24 bg-[var(--color-accent)] mx-auto rounded-full" 
-            role="presentation"
-          />
+          {/* 1. Title: Blur In (Cinematic) */}
+          <ScrollAnimation variant="blurIn">
+            <h2 
+                id="projects-heading"
+                className="text-4xl md:text-6xl font-bold tracking-tight text-foreground"
+            >
+                Featured <span className="text-[var(--color-primary)]">Work</span>
+            </h2>
+          </ScrollAnimation>
           
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto pt-4">
-            A selection of projects that define my technical journey.
-          </p>
+          {/* 2. Decoration: Scale Up (Pop) */}
+          <ScrollAnimation variant="scaleUp" delay={0.2}>
+            <div 
+                className="h-1.5 w-24 bg-[var(--color-accent)] mx-auto rounded-full" 
+                role="presentation"
+            />
+          </ScrollAnimation>
+          
+          {/* 3. Subtitle: Slide Up (Gentle) */}
+          <ScrollAnimation variant="fadeUp" delay={0.3}>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto pt-4">
+                A selection of projects that define my technical journey.
+            </p>
+          </ScrollAnimation>
         </header>
 
-        {/* Stack Component */}
-        <ProjectStack data={projects} />
+        {/* 4. The Stack: Fade Up 
+            Since we can't map inside this component, we animate the whole block.
+            If you want individual cards to stagger, we need to edit ProjectStack.tsx
+        */}
+        <ScrollAnimation variant="fadeUp" delay={0.4}>
+            <ProjectStack data={projects} />
+        </ScrollAnimation>
         
       </div>
     </section>

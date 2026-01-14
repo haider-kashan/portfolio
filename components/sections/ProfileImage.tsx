@@ -26,18 +26,18 @@ export function ProfileImage({
       // ACCESSIBILITY: Indicates the state of the toggle
       aria-pressed={isRevealed}
       aria-label={`View profile details for ${firstName} ${lastName}`}
-      className="relative w-full max-w-[500px] mx-auto group select-none my-10 cursor-pointer font-sans outline-none block border-none bg-transparent p-0"
+      className="relative w-full max-w-125 mx-auto group select-none my-10 cursor-pointer font-sans outline-none block border-none bg-transparent p-0"
     >
       
       {/* AMBIENT GLOW - Decorative, hidden from screen readers */}
       <div 
-        className="absolute -inset-4 bg-gradient-to-tr from-[var(--color-primary)]/40 via-transparent to-[var(--color-accent)]/40 rounded-[3rem] blur-3xl opacity-0 group-hover:opacity-100 transition duration-700 ease-out pointer-events-none" 
+        className="absolute -inset-4 bg-linear-to-tr from-primary/40 via-transparent to-accent/40 rounded-[3rem] blur-3xl opacity-0 group-hover:opacity-100 transition duration-700 ease-out pointer-events-none" 
         aria-hidden="true"
       />
       
       {/* RIM GLOW - Decorative */}
       <div 
-        className="absolute -inset-[1px] bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-accent)] to-[var(--color-primary)] rounded-[2.5rem] blur-sm opacity-30 group-hover:opacity-80 transition duration-500 ease-out will-change-[opacity] pointer-events-none" 
+        className="absolute -inset-px bg-linear-to-br from-(--color-primary) via-(--color-accent) to-(--color-primary) rounded-[2.5rem] blur-sm opacity-30 group-hover:opacity-80 transition duration-500 ease-out will-change-[opacity] pointer-events-none" 
         aria-hidden="true"
       />
 
@@ -60,7 +60,7 @@ export function ProfileImage({
 
         {/* DARK GRADIENT OVERLAY */}
         <div 
-          className={`absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10 pointer-events-none transition-opacity duration-500 ease-in-out
+          className={`absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/90 via-black/50 to-transparent z-10 pointer-events-none transition-opacity duration-500 ease-in-out
           ${isRevealed ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} 
           aria-hidden="true"
         />
@@ -80,7 +80,7 @@ export function ProfileImage({
               <span className="font-extrabold tracking-tight text-xl sm:text-2xl md:text-3xl lg:text-4xl" itemProp="givenName">
                 {firstName}
               </span>
-              <span className="font-extrabold tracking-tight text-[var(--color-accent)] text-xl sm:text-2xl md:text-3xl lg:text-4xl" itemProp="familyName">
+              <span className="font-extrabold tracking-tight text-(--color-accent) text-xl sm:text-2xl md:text-3xl lg:text-4xl" itemProp="familyName">
                 {lastName}
               </span>
             </h3>
