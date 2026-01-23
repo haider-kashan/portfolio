@@ -6,7 +6,7 @@ import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ProfileImage } from "./ProfileImage";
-import { ScrollAnimation } from "@/components/ScrollAnimation"; 
+import { ParallaxZoom } from "@/components/animations/ParallaxZoom";
 
 import {
   IconBrandGithub,
@@ -58,15 +58,15 @@ export async function HeroSection(props: HeroSectionProps) {
 
   const mainCtaText = props.ctaText || "View Work";
   const mainCtaUrl = props.ctaUrl || "#projects";
-  const mainHeadline = profile.headlineStaticText; 
+  const mainHeadline = profile.headlineStaticText;
   const mainSubheadline = profile.shortBio;
 
   const backgroundStyle = props.bgImageUrl
     ? {
-        backgroundImage: `url(${props.bgImageUrl})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
+      backgroundImage: `url(${props.bgImageUrl})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }
     : {};
 
   return (
@@ -74,15 +74,13 @@ export async function HeroSection(props: HeroSectionProps) {
       id="home"
       itemScope
       itemType="http://schema.org/Person"
-      // FIX APPLIED HERE:
-      // 1. Mobile: min-h-[90vh] (to show a peek of the next section) & pb-12 (small gap)
-      // 2. Tablet: min-h-screen & pb-24 (medium gap)
-      // 3. Desktop: pb-40 (large gap)
       className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center px-6 pt-6 md:pt-10 pb-12 md:pb-24 lg:pb-40 overflow-hidden"
       style={backgroundStyle}
     >
-      {/* BACKGROUND */}
-      <BackgroundRippleEffect rows={8} cols={27} cellSize={56} />
+      {/* BACKGROUND WITH PARALLAX */}
+      <ParallaxZoom speed={0.5} scale={[1, 1.15]} className="absolute inset-0 -z-10">
+        <BackgroundRippleEffect rows={8} cols={27} cellSize={56} />
+      </ParallaxZoom>
 
       <div className="relative z-10 container mx-auto max-w-6xl">
         <div className="@container">
@@ -90,31 +88,27 @@ export async function HeroSection(props: HeroSectionProps) {
 
             {/* LEFT CONTENT (Text) */}
             <div className="space-y-6 order-2 @3xl:order-1 flex flex-col items-center text-center @3xl:items-start @3xl:text-left">
-              
+
               <div className="flex flex-col items-center @3xl:items-start w-full">
-                {/* Availability Status - Fade in first */}
+                {/* Availability Status */}
                 {profile.availability === 'available' && (
-                    <ScrollAnimation variant="fadeUp" delay={0}>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 text-xs font-bold uppercase tracking-widest mb-3 backdrop-blur-md">
-                            <span className="relative flex h-2 w-2">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                            </span>
-                            Available for Work
-                        </div>
-                    </ScrollAnimation>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 text-xs font-bold uppercase tracking-widest mb-3 backdrop-blur-md">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    Available for Work
+                  </div>
                 )}
 
-                {/* NAME - Slide from left */}
-                <ScrollAnimation variant="slideFromLeft" delay={0.1} className="w-full">
-                    <h1 className="text-5xl @md/hero:text-6xl @lg/hero:text-8xl font-bold tracking-tight mb-2" itemProp="name">
-                      <span itemProp="givenName">{profile.firstName}</span>{" "}
-                      <span className="text-[var(--color-accent)]" itemProp="familyName">{profile.lastName}</span>
-                    </h1>
-                </ScrollAnimation>
+                {/* NAME */}
+                <h1 className="text-5xl @md/hero:text-6xl @lg/hero:text-8xl font-bold tracking-tight mb-2 w-full" itemProp="name">
+                  <span itemProp="givenName">{profile.firstName}</span>{" "}
+                  <span className="text-[var(--color-accent)]" itemProp="familyName">{profile.lastName}</span>
+                </h1>
 
-                {/* HEADLINE - Slide from left (delayed) */}
-                <ScrollAnimation variant="slideFromLeft" delay={0.2} className="w-full flex justify-center @3xl:justify-start">
+                {/* HEADLINE */}
+                <div className="w-full flex justify-center @3xl:justify-start">
                   {profile.headlineAnimatedWords?.length > 0 ? (
                     <div itemProp="jobTitle">
                       <LayoutTextFlip
@@ -125,106 +119,101 @@ export async function HeroSection(props: HeroSectionProps) {
                       />
                     </div>
                   ) : (
-                    <p 
+                    <p
                       className="text-2xl @md/hero:text-3xl @lg/hero:text-4xl text-muted-foreground font-medium whitespace-nowrap"
                       itemProp="jobTitle"
                     >
                       {mainHeadline}
                     </p>
                   )}
-                </ScrollAnimation>
+                </div>
               </div>
 
-              {/* SUBHEADLINE - Blur In for elegance */}
-              <ScrollAnimation variant="blurIn" delay={0.3}>
-                  <p 
-                    className="text-lg @md/hero:text-xl text-muted-foreground leading-relaxed max-w-lg"
-                    itemProp="description"
+              {/* SUBHEADLINE */}
+              <p
+                className="text-lg @md/hero:text-xl text-muted-foreground leading-relaxed max-w-lg"
+                itemProp="description"
+              >
+                {mainSubheadline}
+              </p>
+
+              {/* CTA + SOCIALS */}
+              <div className="w-full">
+                <div className="flex flex-wrap items-center justify-center @3xl:justify-start gap-6 pt-2">
+                  <Link
+                    href={mainCtaUrl}
+                    className="group relative px-8 py-3.5 rounded-full font-semibold text-black transition-all duration-300 bg-[var(--color-accent)] hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]"
                   >
-                    {mainSubheadline}
-                  </p>
-              </ScrollAnimation>
+                    {mainCtaText}
+                  </Link>
 
-              {/* CTA + SOCIALS - Scale Up (Pop effect) */}
-              <ScrollAnimation variant="scaleUp" delay={0.4} className="w-full">
-                  <div className="flex flex-wrap items-center justify-center @3xl:justify-start gap-6 pt-2">
-                    <Link
-                      href={mainCtaUrl}
-                      className="group relative px-8 py-3.5 rounded-full font-semibold text-black transition-all duration-300 bg-[var(--color-accent)] hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                  {profile.socialLinks && (
+                    <div className="flex items-center gap-5">
+                      {profile.socialLinks.github && (
+                        <SocialIcon href={profile.socialLinks.github} icon={<IconBrandGithub />} label="GitHub" />
+                      )}
+                      {profile.socialLinks.linkedin && (
+                        <SocialIcon href={profile.socialLinks.linkedin} icon={<IconBrandLinkedin />} label="LinkedIn" />
+                      )}
+                      {profile.socialLinks.twitter && (
+                        <SocialIcon href={profile.socialLinks.twitter} icon={<IconBrandTwitter />} label="Twitter" />
+                      )}
+                      {profile.socialLinks.website && (
+                        <SocialIcon href={profile.socialLinks.website} icon={<IconWorld />} label="Website" />
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* METADATA */}
+              <div className="w-full">
+                <address className="flex flex-row flex-wrap items-center justify-center @3xl:justify-start gap-4 @md:gap-6 pt-6 border-t border-border/40 mt-6 w-full not-italic">
+                  {profile.email && (
+                    <a
+                      href={`mailto:${profile.email}`}
+                      className="group flex items-center gap-2 text-zinc-600 dark:text-zinc-400 hover:text-[var(--color-accent)] transition-colors whitespace-nowrap"
+                      itemProp="email"
                     >
-                      {mainCtaText}
-                    </Link>
+                      <IconMail className="w-5 h-5 text-[var(--color-accent)]" aria-hidden="true" />
+                      <span className="text-base font-medium">
+                        {profile.email}
+                      </span>
+                    </a>
+                  )}
 
-                    {profile.socialLinks && (
-                      <div className="flex items-center gap-5">
-                        {profile.socialLinks.github && (
-                          <SocialIcon href={profile.socialLinks.github} icon={<IconBrandGithub />} label="GitHub" />
-                        )}
-                        {profile.socialLinks.linkedin && (
-                          <SocialIcon href={profile.socialLinks.linkedin} icon={<IconBrandLinkedin />} label="LinkedIn" />
-                        )}
-                        {profile.socialLinks.twitter && (
-                          <SocialIcon href={profile.socialLinks.twitter} icon={<IconBrandTwitter />} label="Twitter" />
-                        )}
-                        {profile.socialLinks.website && (
-                          <SocialIcon href={profile.socialLinks.website} icon={<IconWorld />} label="Website" />
-                        )}
-                      </div>
-                    )}
-                  </div>
-              </ScrollAnimation>
-
-              {/* METADATA - Simple Fade Up */}
-              <ScrollAnimation variant="fadeUp" delay={0.5} className="w-full">
-                  <address className="flex flex-row flex-wrap items-center justify-center @3xl:justify-start gap-4 @md:gap-6 pt-6 border-t border-border/40 mt-6 w-full not-italic">
-                    {profile.email && (
-                      <a 
-                        href={`mailto:${profile.email}`} 
-                        className="group flex items-center gap-2 text-zinc-600 dark:text-zinc-400 hover:text-[var(--color-accent)] transition-colors whitespace-nowrap"
-                        itemProp="email"
-                      >
-                        <IconMail className="w-5 h-5 text-[var(--color-accent)]" aria-hidden="true" />
-                        <span className="text-base font-medium">
-                          {profile.email}
-                        </span>
-                      </a>
-                    )}
-
-                    {profile.location && (
-                      <div 
-                        className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 whitespace-nowrap"
-                        itemProp="homeLocation"
-                        itemScope
-                        itemType="http://schema.org/Place"
-                      >
-                        <IconMapPin className="w-5 h-5 text-[var(--color-accent)]" aria-hidden="true" />
-                        <span className="text-base font-medium" itemProp="name">{profile.location}</span>
-                      </div>
-                    )}
-                  </address>
-              </ScrollAnimation>
+                  {profile.location && (
+                    <div
+                      className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 whitespace-nowrap"
+                      itemProp="homeLocation"
+                      itemScope
+                      itemType="http://schema.org/Place"
+                    >
+                      <IconMapPin className="w-5 h-5 text-[var(--color-accent)]" aria-hidden="true" />
+                      <span className="text-base font-medium" itemProp="name">{profile.location}</span>
+                    </div>
+                  )}
+                </address>
+              </div>
 
             </div>
 
-            {/* RIGHT CONTENT: Profile Image - Slide from Right */}
+            {/* RIGHT CONTENT: Profile Image */}
             <div className="order-1 @3xl:order-2 flex justify-center @3xl:justify-end">
-                <ScrollAnimation variant="slideFromRight" delay={0.1} className="w-full flex justify-center @3xl:justify-end">
-                    
-                    {/* Centering Fix for Mobile: mx-auto */}
-                    <div className="relative w-[70%] @md:w-[60%] @3xl:w-[85%] max-w-md mx-auto @3xl:mx-0">
-                        {profile.profileImage && (
-                        <div itemProp="image">
-                          <ProfileImage
-                              imageUrl={urlFor(profile.profileImage).width(600).height(600).url()}
-                              firstName={profile.firstName || ""}
-                              lastName={profile.lastName || ""}
-                              role={profile.headline || "Software Engineer"}
-                          />
-                        </div>
-                        )}
+              <div className="w-full flex justify-center @3xl:justify-end">
+                <div className="relative w-[70%] @md:w-[60%] @3xl:w-[85%] max-w-md mx-auto @3xl:mx-0">
+                  {profile.profileImage && (
+                    <div itemProp="image">
+                      <ProfileImage
+                        imageUrl={urlFor(profile.profileImage).width(600).height(600).url()}
+                        firstName={profile.firstName || ""}
+                        lastName={profile.lastName || ""}
+                        role={profile.headline || "Software Engineer"}
+                      />
                     </div>
-
-                </ScrollAnimation>
+                  )}
+                </div>
+              </div>
             </div>
 
           </div>
@@ -243,7 +232,7 @@ function SocialIcon({ href, icon, label }: SocialIconProps) {
       rel="noopener noreferrer"
       className="text-zinc-500 hover:text-[var(--color-accent)] transition-colors transform hover:scale-110"
       aria-label={label}
-      itemProp="sameAs" 
+      itemProp="sameAs"
     >
       <div className="w-6 h-6" aria-hidden="true">{icon}</div>
     </Link>

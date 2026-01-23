@@ -2,6 +2,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
+import { SkillsMarquee } from "@/components/sections/SkillsMarquee";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
 import { EducationSection } from "@/components/sections/EducationSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
@@ -37,13 +38,13 @@ interface SettingsProps {
   heroSubheadline?: string;
   heroBackgroundImage?: SanityImage;
   mainCtaText?: string;
-  mainCtaUrl?: string; 
+  mainCtaUrl?: string;
   siteLogo?: SanityImage;
   footer?: {
     text?: string;
     copyrightText?: string;
     links?: any[];
-  };  
+  };
 }
 
 interface PortfolioContentProps {
@@ -63,7 +64,7 @@ export function PortfolioContent({ settings, socialLinks }: PortfolioContentProp
     showSkills = true,
     showCertifications = true,
     showProjects = true,
-    
+
     heroHeadline,
     heroSubheadline,
     heroBackgroundImage,
@@ -74,14 +75,14 @@ export function PortfolioContent({ settings, socialLinks }: PortfolioContentProp
   } = settings || {};
 
   // Cleanly derive the Background URL
-  const heroBgUrl = heroBackgroundImage 
-    ? urlFor(heroBackgroundImage).url() 
+  const heroBgUrl = heroBackgroundImage
+    ? urlFor(heroBackgroundImage).url()
     : undefined;
 
   return (
     <>
       {/* 1. HERO SECTION */}
-      <HeroSection 
+      <HeroSection
         headline={heroHeadline}
         subheadline={heroSubheadline}
         ctaText={mainCtaText}
@@ -91,17 +92,22 @@ export function PortfolioContent({ settings, socialLinks }: PortfolioContentProp
 
       {/* 2. ABOUT SECTION */}
       <AboutSection />
-      
+
       {/* 3. DYNAMIC SECTIONS (Controlled by Sanity Toggles) */}
-      
+
       {showSkills && (
         <SkillsSection />
       )}
-      
+
+      {/* SKILLS MARQUEE - Visual break */}
+      {showSkills && (
+        <SkillsMarquee />
+      )}
+
       {showExperience && (
         <ExperienceSection />
       )}
-      
+
       {showProjects && (
         <ProjectsSection />
       )}
@@ -113,28 +119,28 @@ export function PortfolioContent({ settings, socialLinks }: PortfolioContentProp
       {showTestimonials && (
         <TestimonialsSection />
       )}
-      
+
       {showEducation && (
         <EducationSection />
       )}
-      
+
       {showCertifications && (
         <CertificationsSection />
       )}
-      
+
       {showAchievements && (
         <AchievementsSection />
       )}
-      
+
       {showBlog && (
         <BlogSection />
       )}
-      
+
       {/* 4. CONTACT & FOOTER */}
       <ContactSection />
-      
-      <Footer 
-        footerData={footer} 
+
+      <Footer
+        footerData={footer}
         socialLinks={socialLinks}
         logo={siteLogo} // Passed logo here in case you want to use it in the footer
       />
